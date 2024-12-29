@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A simple interactive webpage with web design, SEO, and marketing services.">
+    <meta name="keywords" content="web design, SEO, marketing, contact">
+    <meta name="author" content="Your Name">
+    <title>Interactive Webpage with Dropdown Menu</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Pacifico&family=Open+Sans:wght@300;400;600&family=Montserrat:wght@400;700&family=Poppins:wght@300;400;600&family=Lobster&display=swap" rel="stylesheet">
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            padding-top: 70px; /* Offset for fixed navbar */
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        /* Navbar */
+        .nav-container {
+            position: relative;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #2c3e50;
+            color: white;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s, font-family 0.3s;
+        }
+
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            padding: 10px 0;
+        }
+
+        .navbar li {
+            margin: 0 20px;
+            position: relative;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            font-size: 18px;
+            transition: background-color 0.3s;
+        }
+
+        .navbar a:hover {
+            background-color: #34495e;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #34495e;
+            min-width: 160px;
+            z-index: 1;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+        }
+
+        .dropdown-content a {
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #1abc9c;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* Scrolling effect */
+        .navbar.scrolled {
+            background-color: #1abc9c;
+        }
+
+        /* Sections */
+        .section {
+            padding: 100px 20px;
+            min-height: 100vh;
+            text-align: center;
+            color: white;
+            transition: background-color 0.5s ease, font-family 0.5s ease;
+        }
+
+        /* Section Colors and Fonts */
+        #home {
+            background-color: #3498db;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        #about {
+            background-color: #e74c3c;
+            font-family: 'Pacifico', cursive;
+        }
+
+        #webdesign {
+            background-color: #9b59b6;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        #seo {
+            background-color: #2ecc71;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        #marketing {
+            background-color: #f39c12;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        #contact {
+            background-color: #34495e;
+            font-family: 'Lobster', cursive;
+        }
+
+        /* Hero Section */
+        .hero {
+            color: white;
+            text-align: center;
+            padding: 150px 20px;
+        }
+
+        .hero h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        .hero button {
+            background-color: #1abc9c;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .hero button:hover {
+            background-color: #16a085;
+        }
+
+        /* Back to Top Button */
+        #backToTop {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #2c3e50;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 50%;
+            font-size: 18px;
+            cursor: pointer;
+            display: none;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        #backToTop:hover {
+            background: #34495e;
+        }
+
+        /* Contact Form */
+        .contact-form input, .contact-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .contact-form button {
+            background-color: #1abc9c;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .contact-form button:hover {
+            background-color: #16a085;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div class="nav-container">
+        <nav class="navbar" id="navbar">
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li class="dropdown">
+                    <a href="javascript:void(0)" class="dropbtn">Services</a>
+                    <div class="dropdown-content">
+                        <a href="#webdesign">Web Design</a>
+                        <a href="#seo">SEO</a>
+                        <a href="#marketing">Marketing</a>
+                    </div>
+                </li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Hero Section -->
+    <div id="home" class="section hero">
+        <h1>Welcome to Our Website</h1>
+        <p>We’re glad you’ve arrived! This is a sample page, created to showcase the structure and design of the website. Feel free to explore and get a feel for how everything works.</p>
+        <button onclick="scrollToSection('#about')">Get Started</button>
+    </div>
+
+    <!-- Content Sections -->
+    <div id="about" class="section">
+        <h2>About Us</h2>
+        <p>We are a team dedicated to providing high-quality solutions that help businesses and individuals succeed online. Our approach is centered around delivering results, whether through exceptional web design, advanced SEO techniques, or innovative marketing strategies.</p>
+    </div>
+    <div id="webdesign" class="section">
+        <h2>Web Design Services</h2>
+        <p>Our web design services focus on creating beautiful, functional websites that deliver results. We work closely with our clients to design websites that are not only visually appealing but also user-friendly, responsive, and optimized for performance.</p>
+    </div>
+    <div id="seo" class="section">
+        <h2>SEO Services</h2>
+        <p>Our SEO services are designed to help your website rank higher in search engine results, driving more traffic and increasing your online visibility.</p>
+    </div>
+    <div id="marketing" class="section">
+        <h2>Marketing Services</h2>
+        <p>Our marketing services help businesses grow by reaching their target audience with the right message at the right time.</p>
+    </div>
+
+    <!-- Contact Us Section -->
+    <div id="contact" class="section">
+        <h2>Contact Us</h2>
+        <p>We’d love to hear from you! Whether you have a question, need support, or want to discuss how we can help with your next project, feel free to get in touch with us.</p>
+        
+        <form class="contact-form" action="#" method="post">
+            <input type="text" name="name" placeholder="Your Name" required>
+            <input type="email" name="email" placeholder="Your Email" required>
+            <textarea name="message" rows="4" placeholder="Your Message" required></textarea>
+            <button type="submit">Send Message</button>
+        </form>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" onclick="scrollToTop()">↑ Back to Top</button>
+
+    <script>
+        // Navbar Scroll Effect
+        const navbar = document.getElementById('navbar');
+        const sections = document.querySelectorAll('.section');
+        const navbarLinks = document.querySelectorAll('.navbar a');
+
+        window.addEventListener('scroll', () => {
+            let currentSection = '';
+
+            sections.forEach((section) => {
+                const sectionTop = section.offsetTop;
+                if (window.scrollY >= sectionTop - 50) {
+                    currentSection = section.getAttribute('id');
+                }
+            });
+
+            // Change navbar color and font based on the current section
+            switch (currentSection) {
+                case 'home':
+                    navbar.style.backgroundColor = '#3498db';
+                    navbar.style.fontFamily = 'Roboto, sans-serif';
+                    break;
+                case 'about':
+                    navbar.style.backgroundColor = '#e74c3c';
+                    navbar.style.fontFamily = 'Pacifico, cursive';
+                    break;
+                case 'webdesign':
+                    navbar.style.backgroundColor = '#9b59b6';
+                    navbar.style.fontFamily = 'Open Sans, sans-serif';
+                    break;
+                case 'seo':
+                    navbar.style.backgroundColor = '#2ecc71';
+                    navbar.style.fontFamily = 'Montserrat, sans-serif';
+                    break;
+                case 'marketing':
+                    navbar.style.backgroundColor = '#f39c12';
+                    navbar.style.fontFamily = 'Poppins, sans-serif';
+                    break;
+                default:
+                    navbar.style.backgroundColor = '#34495e';
+                    navbar.style.fontFamily = 'Lobster, cursive';
+            }
+
+            // Show/hide back-to-top button
+            const backToTopButton = document.getElementById('backToTop');
+            if (window.scrollY > 200) {
+                backToTopButton.style.display = 'block';
+            } else {
+                backToTopButton.style.display = 'none';
+            }
+        });
+
+        // Smooth scroll function
+        function scrollToSection(section) {
+            document.querySelector(section).scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
+        // Scroll to top function
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+    </script>
+
+</body>
+</html>
